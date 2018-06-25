@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { inject, observer } from "mobx-react";
+import Game from './components/Game';
 
 const styles = {
   night: {
@@ -14,31 +15,19 @@ const styles = {
 };
 
 const Headline = styled.h1`
-  font-size: 3rem;
-
-  ${({ theme }) =>
-    css`
-      color: ${styles[theme].color};
-      background-color: ${styles[theme].backgroundColor};
-    `};
+  ${({ theme }) => `
+    color: ${styles[theme].color};
+    background-color: ${styles[theme].backgroundColor};
+  `};
 `;
 
-@inject("UiStore")
 @observer
 class App extends Component {
   render() {
     const { UiStore } = this.props;
 
     return (
-      <div
-        className="App"
-        onClick={e => {
-          e.preventDefault();
-          UiStore.toggleTheme();
-        }}
-      >
-        <Headline theme={UiStore.theme}>Hey!</Headline>
-      </div>
+      <Game />
     );
   }
 }
