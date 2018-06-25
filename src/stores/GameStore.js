@@ -1,4 +1,4 @@
-import { action, observable, computed } from 'mobx';
+import { action, observable } from 'mobx';
 import Player from '../models/Player';
 
 class GameStore {
