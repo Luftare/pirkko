@@ -1,7 +1,4 @@
 import { action, observable, computed } from 'mobx';
-import ScoreInput from '../components/ScoreInput';
-import ScoreBoard from '../components/ScoreBoard';
-import Home from '../components/Home';
 
 const pathMatchesRouteDefinition = (path, route) => {
   const pathArray = path.split('/');
@@ -35,34 +32,18 @@ const parseParameters = (path, route) => {
   }, {});
 };
 
-const parseQueryParameters = (path) => {
-  path;
-};
-
 class RouterStore {
-  constructor() {
+  constructor(routes) {
     window.addEventListener('hashchange', (e) => {
       this.path = window.location.hash.split('#').join('');
     });
+
+    this.routes = routes;
   }
 
   @observable path = window.location.hash.split('#').join('');
 
-  @observable
-  routes = [
-    {
-      path: '/',
-      component: Home
-    },
-    {
-      path: '/play/:tee',
-      component: ScoreInput
-    },
-    {
-      path: '/score',
-      component: ScoreBoard
-    }
-  ];
+  @observable routes = [];
 
   @computed
   get defaultRoute() {
@@ -76,6 +57,9 @@ class RouterStore {
         pathMatchesRouteDefinition(this.path, route.path) ? route : current,
       this.defaultRoute
     );
+    if (routeObject.auth && !routeObject.auth(this)) {
+      return this.defaultRoute;
+    }
     return routeObject;
   }
 
@@ -90,4 +74,4 @@ class RouterStore {
   };
 }
 
-export default new RouterStore();
+export default RouterStore;

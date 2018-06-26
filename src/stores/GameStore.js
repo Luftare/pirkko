@@ -3,7 +3,6 @@ import Player from '../models/Player';
 
 class GameStore {
   @observable pars = [...Array(16)].map(() => 3);
-  @observable currentTee = 0;
   @observable newPlayerName = '';
   @observable
   players = [
