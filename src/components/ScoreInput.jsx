@@ -68,17 +68,22 @@ const Button = styled.button`
 `;
 
 @inject("gameStore")
+@inject("routerStore")
 @observer
 class ScoreInput extends Component {
   render() {
-    const { gameStore } = this.props;
+    const { gameStore, routerStore } = this.props;
+    const { tee } = routerStore.params;
     return (
       <Container>
         <TopContainer>
-          <TeeNumber>{gameStore.currentTee + 1}</TeeNumber>
+          <a href={`#/play/${tee - 1}`}>prev</a>
+          <a href={`#/play/${tee + 1}`}>next</a>
+          <a href={`#`}>home</a>
+          <TeeNumber>{ tee }</TeeNumber>
           <TeeControls>
             <Button small>-</Button>
-            <CurrentPar>5</CurrentPar>
+            <CurrentPar>3</CurrentPar>
             <Button small>+</Button>
           </TeeControls>
         </TopContainer>

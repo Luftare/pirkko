@@ -12,8 +12,8 @@ class Game extends Component {
 
     return (
       <div>
-        <a href='#score'>To score</a>
-        <button onClick={() => goTo('#play')}>To game</button>
+        <a href='#/score'>To score</a>
+        <button onClick={() => goTo('/play/0')}>To game</button>
       </div>
     );
   }
