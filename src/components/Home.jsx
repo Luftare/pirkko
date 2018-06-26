@@ -5,7 +5,7 @@ import { media } from '../styles';
 
 @inject("routerStore")
 @observer
-class Game extends Component {
+class Home extends Component {
 
   render() {
     const { goTo } = this.props.routerStore;
@@ -19,4 +19,4 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export default Home;

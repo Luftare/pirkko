@@ -12,6 +12,16 @@ class GameStore {
   ];
 
   @action
+  incrementPar = (tee) => {
+    this.pars[tee]++;
+  };
+
+  @action
+  decrementPar = (tee) => {
+    this.pars[tee] = Math.max(1, this.pars[tee] - 1);
+  };
+
+  @action
   addPlayer = (name) => {
     this.players.push(new Player({ name }));
   };
@@ -24,6 +34,43 @@ class GameStore {
   @action
   setNewPlayerName = (name) => {
     this.newPlayerName = name;
+  };
+
+  @action
+  setPlayerScoreAtTee = (player, tee, score) => {
+    player.scores[tee] = score;
+  };
+
+  @action
+  setPlayerScoreAtTeeToPar = (player, tee) => {
+    this.players = this.players.map((p) => {
+      if (p.name === player.name) {
+        p.scores[tee] = this.pars[tee];
+      }
+      return p;
+    });
+  };
+
+  @action
+  incrementPlayerScoreAtTee = (player, tee) => {
+    this.players = this.players.map((p) => {
+      if (p.name === player.name) {
+        p.scores[tee] = p.scores[tee] ? p.scores[tee] + 1 : this.pars[tee] + 1;
+      }
+      return p;
+    });
+  };
+
+  @action
+  decrementPlayerScoreAtTee = (player, tee) => {
+    this.players = this.players.map((p) => {
+      if (p.name === player.name) {
+        p.scores[tee] = p.scores[tee]
+          ? Math.max(1, p.scores[tee] - 1)
+          : this.pars[tee] - 1;
+      }
+      return p;
+    });
   };
 }
 
