@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { observer, inject } from "mobx-react";
+import { Icon } from 'react-icons-kit';
+import { flag, crosshair } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`
@@ -24,12 +26,15 @@ const Column = styled.div`
 `;
 
 const Cell = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
   text-decoration: none;
-  text-align: center;
-  padding: 4px 0;
   border-radius: 2px;
   background-color: ${props => props.background || props.theme.lightgrey};
   color: ${props => props.color || props.theme.black};
+  overflow: hidden;
 `;
 
 @inject("gameStore")
@@ -42,7 +47,7 @@ class ScoreBoard extends Component {
         <a href='#/'>home</a>
         <ScoreContainer playersCount={players.length}>
         <Column>
-          <Cell>Tee</Cell>
+          <Cell><Icon icon={flag} /></Cell>
           {pars.map((p, i) => (
             <Cell
               href={`#/play/${i}`}
@@ -53,7 +58,7 @@ class ScoreBoard extends Component {
           ))}
         </Column>
         <Column>
-          <Cell>Par</Cell>
+          <Cell><Icon icon={crosshair} /></Cell>
           {pars.map((p, i) => (
             <Cell
               href={`#/play/${i}`}

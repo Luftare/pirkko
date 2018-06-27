@@ -8,7 +8,10 @@ class GameStore {
   players = [
     new Player({ name: 'Jeppe' }),
     new Player({ name: 'Pasi' }),
-    new Player({ name: 'Jenny' })
+    new Player({ name: 'Jenny' }),
+    new Player({ name: 'Joku' }),
+    new Player({ name: 'Minä' }),
+    new Player({ name: 'Sinä' })
   ];
 
   @action
