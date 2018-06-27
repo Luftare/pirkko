@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import { observer, inject } from "mobx-react";
-import { media } from '../styles';
+import { media, theme } from '../styles';
 
 const Container = styled.div`
   ${media.tablet`
@@ -43,22 +43,15 @@ const PlayerContainer = styled.div`
   font-size: 1.5em;
 `;
 
-const bounceAnimation = keyframes`
-  0% {
-    transform: scale(1.1, 1);
-  }
-  100% {
-    transform: scale(1, 1.1);
-  }
-`;
-
 const PlayerScore = styled.div`
-  padding: 8px 16px;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
   border-radius: 40px;
-
-  animation: ${props => props.attention ? `${bounceAnimation} 200ms infinite;`: 'none;'}
-  animation-direction: alternate;
   box-shadow: 0px 0px 3px #111;
+  background-color: ${props => props.background};
 `;
 
 const PlayerControls = styled.div`
@@ -77,7 +70,7 @@ const Button = styled.button`
   border-radius: 4px;
   font-size: inherit;
   :active {
-    transform: scale(0.9, 0.9);
+    transform: scale(0.95, 0.95);
   }
 `;
 
@@ -142,9 +135,10 @@ class ScoreInput extends Component {
               >-</Button>
               <PlayerScore
                 onClick={() => this.resetScore(player, tee)}
-                attention={!player.scores[tee]}
+                bounce={!player.scores[tee]}
+                background={theme.scoreToColor(player.scores[tee], par)}
               >
-                {player.scores[tee] || `${par}?`}
+                {player.scores[tee] || `?`}
               </PlayerScore>
               <Button
                 onMouseDown={() => this.incrementScore(player, tee)}

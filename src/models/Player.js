@@ -1,6 +1,6 @@
 export default class Player {
   constructor({ name }) {
     this.name = name;
-    this.scores = [];
+    this.scores = [...Array(16)].map(() => Math.ceil(Math.random() * 4 + 1));
   }
 }

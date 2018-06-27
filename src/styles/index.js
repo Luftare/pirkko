@@ -16,26 +16,23 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
 }, {});
 
 export const theme = {
-  primary: '#2e9',
+  primary: '#444',
   secondary: '#8bf',
   white: '#fff',
   black: '#222',
   grey: '#777',
-  green: '#5f8',
-  yellow: '#dd0',
-  orange: '#f70',
-  red: '#f55',
-  lightgrey: '#ddd',
-  purple: '#909',
-  blue: '#09F',
+  green: '#4f4',
+  yellow: '#FF5',
+  orange: '#fa3',
+  red: '#f44',
+  lightgrey: '#eee',
+  purple: '#f6e',
+  blue: '#9cF',
   scoreToColor: (score, par) => {
     if (!score) return theme.lightgrey;
     const result = score - par;
+    if (result <= -2) return theme.purple;
     switch (result) {
-      case -3:
-        return theme.purple;
-      case -2:
-        return theme.purple;
       case -1:
         return theme.blue;
       case 0:

@@ -9,15 +9,13 @@ const Container = styled.div`
 
 const ScoreContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(${props => props.playersCount || 0}, 1fr);
+  grid-template-columns: 30px 30px repeat(${props => props.playersCount || 0}, 1fr);
   grid-auto-flow: column;
   width: 100%;
   grid-gap: 4px;
   padding: 4px;
   box-sizing: border-box;
-  ${media.tablet`
-    background-color: green;
-  `}
+  background-color: ${props => props.theme.black};
 `;
 
 const Column = styled.div`
@@ -27,9 +25,11 @@ const Column = styled.div`
 
 const Cell = styled.a`
   text-decoration: none;
-  color: black;
   text-align: center;
+  padding: 4px 0;
+  border-radius: 2px;
   background-color: ${props => props.background || props.theme.lightgrey};
+  color: ${props => props.color || props.theme.black};
 `;
 
 @inject("gameStore")
@@ -41,9 +41,34 @@ class ScoreBoard extends Component {
       <Container>
         <a href='#/'>home</a>
         <ScoreContainer playersCount={players.length}>
+        <Column>
+          <Cell>Tee</Cell>
+          {pars.map((p, i) => (
+            <Cell
+              href={`#/play/${i}`}
+              key={i}
+            >
+              {i + 1}
+            </Cell>
+          ))}
+        </Column>
+        <Column>
+          <Cell>Par</Cell>
+          {pars.map((p, i) => (
+            <Cell
+              href={`#/play/${i}`}
+              key={i}
+            >
+              {p}
+            </Cell>
+          ))}
+        </Column>
         {players.map((player, i) => (
           <Column key={i}>
-            <Cell>{player.name}</Cell>
+            <Cell
+               background={theme.primary}
+               color={theme.white}
+            >{player.name}</Cell>
             {pars.map((par, j) => (
               <Cell
                 key={j}
