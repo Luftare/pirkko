@@ -1,22 +1,54 @@
 import React, { Component } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { observer, inject } from "mobx-react";
+import { Icon } from 'react-icons-kit';
+import { flag, thumbsUp, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`
-  ${media.tablet`
-
-  `}
+  margin-bottom: 70px;
 `;
 
 const TopContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   padding: 16px 16px;
   box-sizing: border-box;
+  background-color: ${props => props.theme.lightgrey};
+  ${media.tablet`
+    padding: 16px 15%;
+  `}
 `;
+
+const ScoresContainer = styled.div`
+  padding: 16px 16px;
+  box-sizing: border-box;
+  background-color: ${props => props.theme.white};
+  ${media.tablet`
+    padding: 16px 15%;
+    > *:not(:last-child) {
+      border-bottom: 2px solid ${props => props.theme.lightgrey};
+    }
+  `}
+`;
+
+const BottomContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px;
+  box-sizing: border-box;
+  background-color: ${props => props.theme.primary};
+  ${media.tablet`
+    padding: 16px 15%;
+  `}
+`;
+
 
 const TeeNumber = styled.div`
   font-size: 3em;
@@ -24,13 +56,16 @@ const TeeNumber = styled.div`
 
 const TeeControls = styled.div`
   display: flex;
-  width: 180px;
+  width: 120px;
   align-items: center;
   justify-content: space-between;
 `;
 
 const CurrentPar = styled.div`
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 32px;
 `;
 
 const PlayerContainer = styled.div`
@@ -39,8 +74,11 @@ const PlayerContainer = styled.div`
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 16px 32px;
+  padding: 8px 0;
   font-size: 1.5em;
+  ${media.tablet`
+    padding: 16px 0;
+  `}
 `;
 
 const PlayerScore = styled.div`
@@ -58,20 +96,40 @@ const PlayerControls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 180px;
+  width: 160px;
+  ${media.tablet`
+    width: 180px;
+  `}
+`;
+
+const PlayerName = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: calc(100% - 165px);
+  white-space: nowrap;
+  ${media.tablet`
+    width: calc(100% - 185px);
+  `}
 `;
 
 const Button = styled.button`
   border: none;
   box-shadow: 0px 0px 3px #111;
-  color: black;
-  height: ${props => props.small ? '30px' : '45px'};
-  width: ${props => props.small ? '30px' : '45px'};
+  color: ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
+  height: ${props => props.small ? '25px' : '40px'};
+  width: ${props => props.small ? '25px' : '40px'};
   border-radius: 4px;
   font-size: inherit;
   :active {
     transform: scale(0.95, 0.95);
   }
+
+  ${media.tablet`
+    width: 180px;
+    height: ${props => props.small ? '30px' : '50px'};
+    width: ${props => props.small ? '30px' : '50px'};
+  `}
 `;
 
 @inject("routerStore")
@@ -104,20 +162,18 @@ class ScoreInput extends Component {
     const { tee } = routerStore.params;
     const { pars } = gameStore;
     const par = pars[tee];
+    const teeReady = !gameStore.players.find(p => !p.scores[tee]);
     return (
       <Container>
         <TopContainer>
-          <a href={`#/play/${Math.max(0, tee - 1)}`}>prev</a>
-          <a href={`#/play/${Math.min(pars.length - 1, tee + 1)}`}>next</a>
-          <a href={`#/`}>home</a>
-          <TeeNumber>{ tee + 1 }</TeeNumber>
+          <TeeNumber><Icon icon={flag} size={30} style={{color: theme.grey}} /> { tee + 1 }</TeeNumber>
           <TeeControls>
             <Button
               small
               onMouseDown={() => this.decrementPar(tee)}
               onTouchstart={() => this.decrementPar(tee)}
             >-</Button>
-            <CurrentPar>{ par }</CurrentPar>
+            <CurrentPar><Icon icon={thumbsUp} style={{color: theme.grey}} /> { par }</CurrentPar>
             <Button
               small
               onMouseDown={() => this.incrementPar(tee)}
@@ -125,28 +181,44 @@ class ScoreInput extends Component {
             >+</Button>
           </TeeControls>
         </TopContainer>
-        {gameStore.players.map((player, i) => (
-          <PlayerContainer key={i}>
-            {player.name}
-            <PlayerControls>
-              <Button
-                onMouseDown={() => this.decrementScore(player, tee)}
-                onTouchstart={() => this.decrementScore(player, tee)}
-              >-</Button>
-              <PlayerScore
-                onClick={() => this.resetScore(player, tee)}
-                bounce={!player.scores[tee]}
-                background={theme.scoreToColor(player.scores[tee], par)}
-              >
-                {player.scores[tee] || `?`}
-              </PlayerScore>
-              <Button
-                onMouseDown={() => this.incrementScore(player, tee)}
-                onTouchstart={() => this.incrementScore(player, tee)}
-              >+</Button>
-            </PlayerControls>
-          </PlayerContainer>
-        ))}
+        <ScoresContainer>
+          {gameStore.players.map((player, i) => (
+            <PlayerContainer key={i}>
+              <PlayerName>{player.name}</PlayerName>
+              <PlayerControls>
+                <Button
+                  onMouseDown={() => this.decrementScore(player, tee)}
+                  onTouchstart={() => this.decrementScore(player, tee)}
+                >-</Button>
+                <PlayerScore
+                  onClick={() => this.resetScore(player, tee)}
+                  bounce={!player.scores[tee]}
+                  background={theme.scoreToColor(player.scores[tee], par)}
+                >
+                  {player.scores[tee] || `?`}
+                </PlayerScore>
+                <Button
+                  onMouseDown={() => this.incrementScore(player, tee)}
+                  onTouchstart={() => this.incrementScore(player, tee)}
+                >+</Button>
+              </PlayerControls>
+            </PlayerContainer>
+          ))}
+        </ScoresContainer>
+        <BottomContainer>
+          <a href={tee > 0 ? `#/play/${tee - 1}` : `#/play/${tee}`}>
+            <Icon icon={chevronLeft} style={{color: tee > 0 ? theme.white : theme.grey }} size={32}/>
+          </a>
+          <a href={`#/`}>
+            <Icon icon={home} style={{color: theme.white}} size={32}/>
+          </a>
+          <a href={`#/score`}>
+            <Icon icon={list} style={{color: theme.white}} size={32}/>
+          </a>
+          <a href={teeReady ? `#/play/${Math.min(pars.length - 1, tee + 1)}` : `#/play/${tee}`}>
+            <Icon icon={chevronRight} style={{color: teeReady ? theme.white : theme.grey }} size={32}/>
+          </a>
+        </BottomContainer>
       </Container>
     );
   }

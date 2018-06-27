@@ -5,11 +5,8 @@ import { inject, observer } from "mobx-react";
 @observer
 class Router extends Component {
   render() {
-    console.log(this.props.routerStore.params)
     return (
-      <div>
-        <this.props.routerStore.currentRoute.component />
-      </div>
+      <this.props.routerStore.currentRoute.component />
     );
   }
 }

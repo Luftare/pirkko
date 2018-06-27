@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import Player from '../models/Player';
 
 class GameStore {
@@ -13,6 +13,50 @@ class GameStore {
     new Player({ name: 'Minä' }),
     new Player({ name: 'Sinä' })
   ];
+
+  @computed
+  get currentTee() {
+    return this.pars.reduce((lastValidTee, _, index) => {
+      const teeReady = !this.players.find((p) => !p.scores[index]);
+      if (teeReady) {
+        return index;
+      }
+      return lastValidTee;
+    }, 0);
+  }
+
+  @computed
+  get currentTeeReady() {
+    return !this.players.find((p) => !p.scores[this.currentTee]);
+  }
+
+  @computed
+  get firstUnfinishedTee() {
+    return this.currentTeeReady
+      ? Math.min(this.pars.length - 1, this.currentTee + 1)
+      : this.currentTee;
+  }
+
+  @computed
+  get parsTotal() {
+    return this.pars.reduce((acc, val) => acc + val, 0);
+  }
+
+  @computed
+  get rankedPlayers() {
+    return this.players
+      .map((p) => {
+        p.deviation = p.scores.reduce((acc, score, i) => {
+          const par = this.pars[i];
+          if (par && score) {
+            return acc + score - par;
+          }
+          return acc;
+        }, 0);
+        return p;
+      })
+      .sort((a, b) => a.deviation - b.deviation);
+  }
 
   @action
   incrementPar = (tee) => {
