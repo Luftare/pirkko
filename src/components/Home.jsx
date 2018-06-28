@@ -5,8 +5,12 @@ import discImage from '../assets/disc.jpg';
 import flagImage from '../assets/flag.png';
 import freeImage from '../assets/free.png';
 import { Icon } from 'react-icons-kit';
-import { arrowRight, plus, list, users, compass } from 'react-icons-kit/feather/';
+import { arrowRight, plus, list, users, compass, database } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
+
+const Container = styled.div`
+  position: relative;
+`;
 
 const Grid = styled.div`
   width: 100%;
@@ -94,14 +98,24 @@ const Description = styled.div`
   box-sizing: border-box;
 `;
 
+const AboutSection = styled.div`
+  padding: 32px 16px;
+  font-size: 1em;
+  color: ${props => props.theme.grey};
+  background-color: ${props => props.theme.primary};
+  color: ${props => props.theme.white};
+  position: relative;
+  text-align: center;
+`;
+
 const BottomTag = styled.a`
   display: block;
-  position: fixed;
-  bottom: 8px;
-  right: 8px;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
   font-size: 0.5em;
-  color: ${props => props.theme.grey};
-`
+  color: ${props => props.theme.white};
+`;
 
 @inject("routerStore")
 @inject("gameStore")
@@ -176,7 +190,7 @@ class Home extends Component {
     const selections = gameStore.players.length > 0 ? ongoingGameSelections : <Grid>{newGameSelection}</Grid>;
 
     return (
-      <div>
+      <Container>
         <TopContainer>
           <TopImage src={discImage} />
           <FlagImage src={flagImage} />
@@ -189,8 +203,11 @@ class Home extends Component {
           </Title>
         </TopContainer>
         {selections}
+        <AboutSection>
+          <Icon icon={database} style={{marginRight: '3px'}} size={14}/> You can leave this page without losing data.
+        </AboutSection>
         <BottomTag href="https://luftare.com">by: Luftare</BottomTag>
-      </div>
+      </Container>
     );
   }
 }
