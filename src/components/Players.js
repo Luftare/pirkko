@@ -77,7 +77,7 @@ const PlayerNameInput = styled.input`
   border-radius: 4px;
   padding: 4px;
   font-size: 1.3em;
-  box-shadow: 0px 0px 3px #111;
+  border: 2px solid ${(props) => props.theme.lightgrey};
   box-sizing: border-box;
   width: 100%;
 `;

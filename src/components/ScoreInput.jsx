@@ -116,6 +116,9 @@ const PlayerName = styled.span`
 
 const Button = styled.button`
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0px 0px 3px #111;
   color: ${props => props.theme.black};
   background-color: ${props => props.theme.white};
