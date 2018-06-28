@@ -25,7 +25,10 @@ class GameStore {
     }
     autorun(() => {
       const encodeData = JSON.stringify({
-        players: this.players,
+        players: this.players.map((p) => ({
+          name: p.name,
+          scores: p.scores
+        })),
         pars: this.pars
       });
       localStorage.setItem(LOCAL_STORAGE_NAME, encodeData);

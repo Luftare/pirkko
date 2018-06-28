@@ -34,6 +34,17 @@ const IconButton = styled.a`
   }
 `;
 
+const TopContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  ${media.tablet`
+    grid-template-columns: 200px auto;
+  `}
+  ${media.desktop`
+    grid-template-columns: 400px auto;
+  `}
+`;
+
 const TopImage = styled.img`
   width: 100%;
   vertical-align: bottom;
@@ -56,12 +67,22 @@ const FreeImage = styled.img`
 
 const Title = styled.h1`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   font-size: 2em;
   margin: 0;
   padding: 16px;
   text-align: center;
   background-color: ${props => props.theme.lightgrey};
   box-sizing: border-box;
+  ${media.tablet`
+    font-size: 2.2em;
+  `}
+  ${media.desktop`
+    font-size: 3em;
+  `}
 `;
 
 const Description = styled.div`
@@ -107,7 +128,7 @@ class Home extends Component {
       <IconButton onClick={this.requestNewRound}>
         <Icon
           icon={plus}
-          style={{marginRight: '8px', color: theme.grey}}
+          style={{marginRight: '8px', color: theme.primary}}
           size={24}
         />
         New game
@@ -119,7 +140,7 @@ class Home extends Component {
         <IconButton href={`#/score`}>
           <Icon
             icon={list}
-            style={{marginRight: '8px', color: theme.grey}}
+            style={{marginRight: '8px', color: theme.primary}}
             size={24}
           />
           Scores
@@ -127,7 +148,7 @@ class Home extends Component {
         <IconButton href={`#/players`}>
           <Icon
             icon={users}
-            style={{marginRight: '8px', color: theme.grey}}
+            style={{marginRight: '8px', color: theme.primary}}
             size={24}
           />
           Players ({gameStore.players.length})
@@ -135,7 +156,7 @@ class Home extends Component {
         <IconButton href={`#/course-select`}>
           <Icon
             icon={compass}
-            style={{marginRight: '8px', color: theme.grey}}
+            style={{marginRight: '8px', color: theme.primary}}
             size={24}
           />
           Tees ({gameStore.pars.length})
@@ -143,7 +164,7 @@ class Home extends Component {
         <IconButton href={`#/play/${gameStore.firstUnfinishedTee}`}>
           <Icon
             icon={arrowRight}
-            style={{marginRight: '8px', color: theme.grey}}
+            style={{marginRight: '8px', color: theme.primary}}
             size={24}
           />
           Tee {gameStore.firstUnfinishedTee + 1}
@@ -156,15 +177,17 @@ class Home extends Component {
 
     return (
       <div>
-        <TopImage src={discImage} />
-        <FlagImage src={flagImage} />
-        <Title>
-          Pirkko
-          <FreeImage src={freeImage} />
-          <Description>
-            The disc golf scoreboard
-          </Description>
-        </Title>
+        <TopContainer>
+          <TopImage src={discImage} />
+          <FlagImage src={flagImage} />
+          <Title>
+            Pirkko
+            <FreeImage src={freeImage} />
+            <Description>
+              The disc golf scoreboard
+            </Description>
+          </Title>
+        </TopContainer>
         {selections}
         <BottomTag href="https://luftare.com">by: Luftare</BottomTag>
       </div>

@@ -16,7 +16,7 @@ export const media = Object.keys(sizes).reduce((accumulator, label) => {
 }, {});
 
 export const theme = {
-  primary: '#444',
+  primary: '#486',
   secondary: '#8bf',
   white: '#fff',
   black: '#222',

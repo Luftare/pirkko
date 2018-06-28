@@ -16,7 +16,8 @@ const TopContainer = styled.div`
   font-size: 2em;
   justify-content: space-between;
   align-items: center;
-  background-color: ${props => props.theme.lightgrey};
+  color: ${props => props.theme.white};
+  background-color: ${props => props.theme.primary};
 `;
 
 const ScoreContainer = styled.div`
@@ -29,7 +30,7 @@ const ScoreContainer = styled.div`
   grid-gap: 4px;
   padding: ${props => props.noTopPadding ? '0' : ''} 4px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
 `;
 
 const Column = styled.div`
@@ -54,16 +55,17 @@ const Cell = styled.a`
 class ScoreBoard extends Component {
   render() {
     const { rankedPlayers, pars } = this.props.gameStore;
+    const players = rankedPlayers;
     return (
       <Container>
         <TopContainer>
           Scores
-          <a href='#/'><Icon icon={home} size={24}/></a>
+          <a href='#/'><Icon icon={home} size={24} style={{color: theme.white}}/></a>
         </TopContainer>
-        <ScoreContainer sticky playersCount={rankedPlayers.length}>
+        <ScoreContainer sticky playersCount={players.length}>
           <Cell><Icon icon={compass} /></Cell>
           <Cell><Icon icon={thumbsUp} /></Cell>
-          {rankedPlayers.map((player, i) => (
+          {players.map((player, i) => (
             <Cell
               key={i}
               background={theme.primary}
@@ -71,7 +73,7 @@ class ScoreBoard extends Component {
             >{player.name}</Cell>
           ))}
         </ScoreContainer>
-        <ScoreContainer playersCount={rankedPlayers.length} noTopPadding>
+        <ScoreContainer playersCount={players.length} noTopPadding>
           <Column>
             {pars.map((p, i) => (
               <Cell
@@ -92,7 +94,7 @@ class ScoreBoard extends Component {
               </Cell>
             ))}
           </Column>
-          {rankedPlayers.map((player, i) => (
+          {players.map((player, i) => (
             <Column key={i}>
               {pars.map((par, j) => (
                 <Cell
@@ -106,10 +108,10 @@ class ScoreBoard extends Component {
             </Column>
           ))}
         </ScoreContainer>
-        <ScoreContainer sticky bottom playersCount={rankedPlayers.length}>
+        <ScoreContainer sticky bottom playersCount={players.length}>
           <Cell background={'rgba(0, 0, 0, 0)'}></Cell>
           <Cell background={'rgba(0, 0, 0, 0)'}></Cell>
-          {rankedPlayers.map((player, i) => (
+          {players.map((player, i) => (
             <Cell
               key={i}
               background={theme.primary}
