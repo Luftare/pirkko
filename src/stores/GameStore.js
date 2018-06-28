@@ -2,16 +2,16 @@ import { action, observable, computed } from 'mobx';
 import Player from '../models/Player';
 
 class GameStore {
-  @observable pars = [...Array(16)].map(() => 3);
+  @observable pars = [...Array(2)].map(() => 3);
   @observable newPlayerName = '';
   @observable
   players = [
-    new Player({ name: 'Jeppe' }),
-    new Player({ name: 'Pasi' }),
-    new Player({ name: 'Jenny' }),
-    new Player({ name: 'Joku' }),
-    new Player({ name: 'Minä' }),
-    new Player({ name: 'Sinä' })
+    new Player({ name: 'Jeppe', teeCount: this.pars.length }),
+    new Player({ name: 'Pasi', teeCount: this.pars.length }),
+    new Player({ name: 'Jenny', teeCount: this.pars.length }),
+    new Player({ name: 'Joku', teeCount: this.pars.length }),
+    new Player({ name: 'Minä', teeCount: this.pars.length }),
+    new Player({ name: 'Sinä', teeCount: this.pars.length })
   ];
 
   @computed
@@ -38,6 +38,11 @@ class GameStore {
   }
 
   @computed
+  get courseFinished() {
+    return this.currentTee === this.pars.length - 1;
+  }
+
+  @computed
   get parsTotal() {
     return this.pars.reduce((acc, val) => acc + val, 0);
   }
@@ -59,6 +64,13 @@ class GameStore {
   }
 
   @action
+  resetGameData = () => {
+    this.players = [];
+    this.pars = [];
+    this.newPlayerName = '';
+  };
+
+  @action
   incrementPar = (tee) => {
     this.pars[tee]++;
   };
@@ -70,7 +82,7 @@ class GameStore {
 
   @action
   addPlayer = (name) => {
-    this.players.push(new Player({ name }));
+    this.players.push(new Player({ name, teeCount: this.pars.length }));
   };
 
   @action

@@ -12,6 +12,8 @@ import RouterStore from './stores/RouterStore';
 
 import ScoreInput from './components/ScoreInput';
 import ScoreBoard from './components/ScoreBoard';
+import CourseSelect from './components/CourseSelect';
+import PlayerSelect from './components/PlayerSelect';
 import Home from './components/Home';
 
 const routes = [
@@ -24,11 +26,23 @@ const routes = [
     component: ScoreInput
   },
   {
+    path: '/player-select',
+    component: PlayerSelect
+  },
+  {
+    path: '/course-select',
+    component: CourseSelect
+    // auth(params, goTo) {
+    //   return true;
+    // }
+  },
+  {
     path: '/score',
-    component: ScoreBoard,
-    auth() {
-      return gameStore.players.length > 0;
-    }
+    component: ScoreBoard
+    // auth(params, goTo) {
+    //   goTo('/');
+    //   return false;
+    // }
   }
 ];
 

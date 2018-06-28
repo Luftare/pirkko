@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { observer, inject } from "mobx-react";
 import { Icon } from 'react-icons-kit';
 import { flag, thumbsUp, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
@@ -163,6 +163,7 @@ class ScoreInput extends Component {
     const { pars } = gameStore;
     const par = pars[tee];
     const teeReady = !gameStore.players.find(p => !p.scores[tee]);
+
     return (
       <Container>
         <TopContainer>
@@ -216,7 +217,7 @@ class ScoreInput extends Component {
             <Icon icon={list} style={{color: theme.white}} size={32}/>
           </a>
           <a href={teeReady ? `#/play/${Math.min(pars.length - 1, tee + 1)}` : `#/play/${tee}`}>
-            <Icon icon={chevronRight} style={{color: teeReady ? theme.white : theme.grey }} size={32}/>
+            <Icon icon={chevronRight} style={{color: teeReady && (tee < gameStore.pars.length - 1) ? theme.white : theme.grey }} size={32}/>
           </a>
         </BottomContainer>
       </Container>

@@ -5,7 +5,7 @@ import { media } from '../styles';
 
 @inject('gameStore')
 @observer
-class UserManagement extends Component {
+class PlayerSelect extends Component {
   handleInputChange = (e) => {
     const { gameStore } = this.props;
     gameStore.setNewPlayerName(e.target.value);
@@ -33,4 +33,4 @@ class UserManagement extends Component {
   }
 }
 
-export default UserManagement;
+export default PlayerSelect;

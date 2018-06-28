@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { inject, observer } from "mobx-react";
 import { Icon } from 'react-icons-kit';
-import { flag } from 'react-icons-kit/feather/';
+import { flag, plus, list } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`
@@ -23,12 +23,32 @@ const IconButton = styled.a`
 @observer
 class Home extends Component {
 
+  requestNewRound = () => {
+    const { gameStore, routerStore } = this.props;
+
+    if(gameStore.courseFinished) {
+      gameStore.resetGameData();
+      routerStore.goTo('#/course-select');
+    } else if(window.confirm('Start a new game?')) {
+      gameStore.resetGameData();
+      routerStore.goTo('#/course-select');
+    }
+  };
+
   render() {
     const { gameStore, routerStore } = this.props;
     const { goTo } = this.props.routerStore;
 
     return (
       <Container>
+      <IconButton href={`#/score`}>
+        <Icon
+          icon={list}
+          style={{marginRight: '8px', color: theme.grey}}
+          size={32}
+        />
+        Scores
+      </IconButton>
         <IconButton href={`#/play/${gameStore.firstUnfinishedTee}`}>
           <Icon
             icon={flag}
@@ -36,6 +56,14 @@ class Home extends Component {
             size={32}
           />
           Go to tee {gameStore.firstUnfinishedTee + 1}
+        </IconButton>
+        <IconButton onClick={this.requestNewRound}>
+          <Icon
+            icon={plus}
+            style={{marginRight: '8px', color: theme.grey}}
+            size={32}
+          />
+          New game
         </IconButton>
         <a href='#/score'>To score</a>
         <button onClick={() => goTo('/play/0')}>To game</button>

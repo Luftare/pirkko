@@ -57,7 +57,8 @@ class RouterStore {
         pathMatchesRouteDefinition(this.path, route.path) ? route : current,
       this.defaultRoute
     );
-    if (routeObject.auth && !routeObject.auth(this)) {
+    const params = parseParameters(this.path, routeObject.path);
+    if (routeObject.auth && !routeObject.auth(params, this.goTo)) {
       return this.defaultRoute;
     }
     return routeObject;
