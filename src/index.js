@@ -13,7 +13,7 @@ import RouterStore from './stores/RouterStore';
 import ScoreInput from './components/ScoreInput';
 import ScoreBoard from './components/ScoreBoard';
 import CourseSelect from './components/CourseSelect';
-import PlayerSelect from './components/PlayerSelect';
+import Players from './components/Players';
 import Home from './components/Home';
 
 const routes = [
@@ -26,8 +26,8 @@ const routes = [
     component: ScoreInput
   },
   {
-    path: '/player-select',
-    component: PlayerSelect
+    path: '/players',
+    component: Players
   },
   {
     path: '/course-select',

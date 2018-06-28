@@ -2,16 +2,16 @@ import { action, observable, computed } from 'mobx';
 import Player from '../models/Player';
 
 class GameStore {
-  @observable pars = [...Array(2)].map(() => 3);
+  @observable pars = [...Array(16)].map(() => 3);
   @observable newPlayerName = '';
   @observable
   players = [
-    new Player({ name: 'Jeppe', teeCount: this.pars.length }),
-    new Player({ name: 'Pasi', teeCount: this.pars.length }),
-    new Player({ name: 'Jenny', teeCount: this.pars.length }),
-    new Player({ name: 'Joku', teeCount: this.pars.length }),
-    new Player({ name: 'Minä', teeCount: this.pars.length }),
-    new Player({ name: 'Sinä', teeCount: this.pars.length })
+    // new Player({ name: 'Jeppe', teeCount: this.pars.length }),
+    // new Player({ name: 'Pasi', teeCount: this.pars.length }),
+    // new Player({ name: 'Jenny', teeCount: this.pars.length }),
+    // new Player({ name: 'Joku', teeCount: this.pars.length }),
+    // new Player({ name: 'Minä', teeCount: this.pars.length }),
+    // new Player({ name: 'Sinä', teeCount: this.pars.length })
   ];
 
   @computed
@@ -66,8 +66,13 @@ class GameStore {
   @action
   resetGameData = () => {
     this.players = [];
-    this.pars = [];
+    this.pars = [...Array(16)].map(() => 3);
     this.newPlayerName = '';
+  };
+
+  @action
+  updateTeeCount = (teeCount) => {
+    this.pars = [...Array(teeCount)].map(() => 3);
   };
 
   @action
@@ -94,6 +99,12 @@ class GameStore {
   setNewPlayerName = (name) => {
     this.newPlayerName = name;
   };
+
+  @computed
+  get newPlayerNameIsValid() {
+    if (this.players.find((p) => p.name === this.newPlayerName)) return;
+    return this.newPlayerName.length > 0;
+  }
 
   @action
   setPlayerScoreAtTee = (player, tee, score) => {

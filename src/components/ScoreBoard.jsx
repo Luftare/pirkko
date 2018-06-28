@@ -16,6 +16,7 @@ const TopContainer = styled.div`
   font-size: 2em;
   justify-content: space-between;
   align-items: center;
+  background-color: ${props => props.theme.lightgrey};
 `;
 
 const ScoreContainer = styled.div`
