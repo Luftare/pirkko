@@ -6,15 +6,7 @@ const LOCAL_STORAGE_NAME = 'FBG_GAME_DATA';
 class GameStore {
   @observable pars = [...Array(16)].map(() => 3);
   @observable newPlayerName = '';
-  @observable
-  players = [
-    new Player({ name: 'Jeppe', teeCount: this.pars.length }),
-    new Player({ name: 'Pasi', teeCount: this.pars.length }),
-    new Player({ name: 'Jenny', teeCount: this.pars.length }),
-    new Player({ name: 'Joku', teeCount: this.pars.length }),
-    new Player({ name: 'Minä', teeCount: this.pars.length }),
-    new Player({ name: 'Sinä', teeCount: this.pars.length })
-  ];
+  @observable players = [];
 
   constructor(stateTree) {
     const storedState = window.localStorage.getItem(LOCAL_STORAGE_NAME);
