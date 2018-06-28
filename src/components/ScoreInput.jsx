@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import { observer, inject } from "mobx-react";
 import { Icon } from 'react-icons-kit';
-import { flag, thumbsUp, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
+import { compass, thumbsUp, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`
@@ -17,6 +17,7 @@ const TopContainer = styled.div`
   padding: 16px 16px;
   box-sizing: border-box;
   background-color: ${props => props.theme.lightgrey};
+  z-index: 100;
   ${media.tablet`
     padding: 16px 15%;
   `}
@@ -65,7 +66,8 @@ const CurrentPar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 32px;
+  flex-direction: column;
+  width: 40px;
 `;
 
 const PlayerContainer = styled.div`
@@ -167,14 +169,14 @@ class ScoreInput extends Component {
     return (
       <Container>
         <TopContainer>
-          <TeeNumber><Icon icon={flag} size={30} style={{color: theme.grey}} /> { tee + 1 }</TeeNumber>
+          <TeeNumber><Icon icon={compass} size={30} style={{color: theme.grey}} /> { tee + 1 }</TeeNumber>
           <TeeControls>
             <Button
               small
               onMouseDown={() => this.decrementPar(tee)}
               onTouchstart={() => this.decrementPar(tee)}
             >-</Button>
-            <CurrentPar><Icon icon={thumbsUp} style={{color: theme.grey}} /> { par }</CurrentPar>
+            <CurrentPar>par { par }</CurrentPar>
             <Button
               small
               onMouseDown={() => this.incrementPar(tee)}

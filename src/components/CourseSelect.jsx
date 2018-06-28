@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { inject, observer } from "mobx-react";
 import { Icon } from 'react-icons-kit';
-import { flag, plus, minus, home, thumbsUp, arrowRight } from 'react-icons-kit/feather/';
+import { compass, plus, minus, home, thumbsUp, arrowRight } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Content = styled.div`
@@ -65,6 +65,7 @@ const Cell = styled.span`
   background-color: ${props => props.background || props.theme.lightgrey};
   color: ${props => props.color || props.theme.black};
   font-size: 1.5em;
+  cursor: ${props => props.pointer ? 'pointer' : 'default'};
 `;
 
 const Button = styled.button`
@@ -94,7 +95,6 @@ const TeeCountDisplay = styled.span`
   border-radius: 4px;
   width: 100px;
   text-align: center;
-  box-shadow: 0px 1px 3px #444;
 `
 
 const Title = styled.div`
@@ -130,13 +130,13 @@ class CourseSelect extends Component {
         </DoubleContainer>
         <Content>
           <Controls>
-            <Icon icon={minus} size={42} onClick={this.decrementTeeCount} />
+            <Icon icon={minus} size={42} onClick={this.decrementTeeCount} style={{cursor: 'pointer'}} />
             <TeeCountDisplay>{gameStore.pars.length}</TeeCountDisplay>
-            <Icon icon={plus} size={42} onClick={this.incrementTeeCount} />
+            <Icon icon={plus} size={42} onClick={this.incrementTeeCount} style={{cursor: 'pointer'}} />
           </Controls>
           <Grid>
             <Row three>
-              <Cell background={theme.primary} color={theme.white}><Icon icon={flag} size={18} /></Cell>
+              <Cell background={theme.primary} color={theme.white}><Icon icon={compass} size={18} /></Cell>
               <Cell background={theme.primary} color={theme.white}><Icon icon={thumbsUp} size={18} /></Cell>
               <Cell background={theme.primary} color={theme.white}>Pars</Cell>
             </Row>
@@ -148,8 +148,8 @@ class CourseSelect extends Component {
                 <Cell background={theme.scoreToColor(par, 3)}>
                   {par}
                 </Cell>
-                <Cell onClick={() => gameStore.decrementPar(i)}><Icon icon={minus} size={24} /></Cell>
-                <Cell onClick={() => gameStore.incrementPar(i)}><Icon icon={plus} size={24} /></Cell>
+                <Cell pointer onClick={() => gameStore.decrementPar(i)}><Icon icon={minus} size={24} /></Cell>
+                <Cell pointer onClick={() => gameStore.incrementPar(i)}><Icon icon={plus} size={24} /></Cell>
               </Row>
             ))}
           </Grid>

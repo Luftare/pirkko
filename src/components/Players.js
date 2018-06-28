@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { inject, observer } from 'mobx-react';
 import { Icon } from 'react-icons-kit';
-import { x, user, userPlus, arrowRight } from 'react-icons-kit/feather/';
+import { x, user, userPlus, arrowRight, home } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 
 const Content = styled.div`
   padding: 16px 16px;
@@ -21,6 +30,7 @@ const PlayerContainer = styled.div`
   align-items: center;
   font-size: 1.4em;
   padding: 8px 0;
+  animation: ${fadeIn} 500ms;
 `;
 
 const PlayerDetails = styled.span`
@@ -82,6 +92,7 @@ const BottomContainer = styled.div`
   background-color: ${(props) => props.theme.primary};
   font-size: 2em;
   color: ${(props) => props.theme.white};
+  animation: ${fadeIn} 500ms;
 `;
 
 @inject('gameStore')
@@ -126,7 +137,12 @@ class PlayersComponent extends Component {
 
     return (
       <div>
-        <DoubleContainer>Players</DoubleContainer>
+        <DoubleContainer>
+          Players
+          <Link href="#/">
+            <Icon icon={home} size={24} />
+          </Link>
+        </DoubleContainer>
         <Content>
           <Players>
             {gameStore.players.map((player, i) => (

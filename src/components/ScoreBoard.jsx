@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { observer, inject } from "mobx-react";
 import { Icon } from 'react-icons-kit';
-import { flag, thumbsUp, home } from 'react-icons-kit/feather/';
+import { compass, thumbsUp, home } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`
@@ -61,7 +61,7 @@ class ScoreBoard extends Component {
           <a href='#/'><Icon icon={home} size={24}/></a>
         </TopContainer>
         <ScoreContainer sticky playersCount={rankedPlayers.length}>
-          <Cell><Icon icon={flag} /></Cell>
+          <Cell><Icon icon={compass} /></Cell>
           <Cell><Icon icon={thumbsUp} /></Cell>
           {rankedPlayers.map((player, i) => (
             <Cell
@@ -114,7 +114,7 @@ class ScoreBoard extends Component {
               key={i}
               background={theme.primary}
               color={theme.white}
-            >{player.deviation}</Cell>
+            >{player.deviation > 0 ? `+${player.deviation}` : player.deviation}</Cell>
           ))}
         </ScoreContainer>
       </Container>

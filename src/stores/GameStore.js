@@ -1,18 +1,36 @@
-import { action, observable, computed } from 'mobx';
+import { action, observable, computed, autorun } from 'mobx';
 import Player from '../models/Player';
+
+const LOCAL_STORAGE_NAME = 'FBG_GAME_DATA';
 
 class GameStore {
   @observable pars = [...Array(16)].map(() => 3);
   @observable newPlayerName = '';
   @observable
   players = [
-    // new Player({ name: 'Jeppe', teeCount: this.pars.length }),
-    // new Player({ name: 'Pasi', teeCount: this.pars.length }),
-    // new Player({ name: 'Jenny', teeCount: this.pars.length }),
-    // new Player({ name: 'Joku', teeCount: this.pars.length }),
-    // new Player({ name: 'Minä', teeCount: this.pars.length }),
-    // new Player({ name: 'Sinä', teeCount: this.pars.length })
+    new Player({ name: 'Jeppe', teeCount: this.pars.length }),
+    new Player({ name: 'Pasi', teeCount: this.pars.length }),
+    new Player({ name: 'Jenny', teeCount: this.pars.length }),
+    new Player({ name: 'Joku', teeCount: this.pars.length }),
+    new Player({ name: 'Minä', teeCount: this.pars.length }),
+    new Player({ name: 'Sinä', teeCount: this.pars.length })
   ];
+
+  constructor(stateTree) {
+    const storedState = window.localStorage.getItem(LOCAL_STORAGE_NAME);
+    if (storedState) {
+      const data = JSON.parse(storedState);
+      this.players = data.players;
+      this.pars = data.pars;
+    }
+    autorun(() => {
+      const encodeData = JSON.stringify({
+        players: this.players,
+        pars: this.pars
+      });
+      localStorage.setItem(LOCAL_STORAGE_NAME, encodeData);
+    });
+  }
 
   @computed
   get currentTee() {
@@ -87,7 +105,10 @@ class GameStore {
 
   @action
   addPlayer = (name) => {
-    this.players.push(new Player({ name, teeCount: this.pars.length }));
+    this.players = [
+      ...this.players,
+      new Player({ name, teeCount: this.pars.length })
+    ];
   };
 
   @action

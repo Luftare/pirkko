@@ -5,10 +5,15 @@ import discImage from '../assets/disc.jpg';
 import flagImage from '../assets/flag.png';
 import freeImage from '../assets/free.png';
 import { Icon } from 'react-icons-kit';
-import { arrowRight, plus, list, users } from 'react-icons-kit/feather/';
+import { arrowRight, plus, list, users, compass } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
-const Content = styled.div`
+const Grid = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: row;
+  grid-gap: 8px;
   padding: 16px 16px;
   box-sizing: border-box;
   margin-bottom: 60px;
@@ -17,10 +22,16 @@ const Content = styled.div`
 const IconButton = styled.a`
   display: flex;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-decoration: none;
-  color: ${props => props.theme.black};
-  padding: 8px 0;
+  color: ${props => props.color || props.theme.black};
+  padding: 16px 8px;
+  cursor: pointer;
+  background: ${props => props.background || props.theme.lightgrey};
+  border-radius: 4px;
+  :active {
+    transform: scale(0.95, 0.95);
+  }
 `;
 
 const TopImage = styled.img`
@@ -92,13 +103,24 @@ class Home extends Component {
     const { gameStore, routerStore } = this.props;
     const { goTo } = this.props.routerStore;
 
+    const newGameSelection = (
+      <IconButton onClick={this.requestNewRound}>
+        <Icon
+          icon={plus}
+          style={{marginRight: '8px', color: theme.grey}}
+          size={24}
+        />
+        New game
+      </IconButton>
+    );
+
     const ongoingGameSelections = (
-      <div>
+      <Grid>
         <IconButton href={`#/score`}>
           <Icon
             icon={list}
             style={{marginRight: '8px', color: theme.grey}}
-            size={32}
+            size={24}
           />
           Scores
         </IconButton>
@@ -106,22 +128,31 @@ class Home extends Component {
           <Icon
             icon={users}
             style={{marginRight: '8px', color: theme.grey}}
-            size={32}
+            size={24}
           />
-          Players
+          Players ({gameStore.players.length})
+        </IconButton>
+        <IconButton href={`#/course-select`}>
+          <Icon
+            icon={compass}
+            style={{marginRight: '8px', color: theme.grey}}
+            size={24}
+          />
+          Tees ({gameStore.pars.length})
         </IconButton>
         <IconButton href={`#/play/${gameStore.firstUnfinishedTee}`}>
           <Icon
             icon={arrowRight}
             style={{marginRight: '8px', color: theme.grey}}
-            size={32}
+            size={24}
           />
-          Go to tee {gameStore.firstUnfinishedTee + 1}
+          Tee {gameStore.firstUnfinishedTee + 1}
         </IconButton>
-      </div>
+        {newGameSelection}
+      </Grid>
     );
 
-    const selections = gameStore.players.length > 0 ? ongoingGameSelections : null;
+    const selections = gameStore.players.length > 0 ? ongoingGameSelections : <Grid>{newGameSelection}</Grid>;
 
     return (
       <div>
@@ -134,17 +165,7 @@ class Home extends Component {
             The disc golf scoreboard
           </Description>
         </Title>
-        <Content>
-          {selections}
-          <IconButton onClick={this.requestNewRound}>
-            <Icon
-              icon={plus}
-              style={{marginRight: '8px', color: theme.grey}}
-              size={32}
-            />
-            New game
-          </IconButton>
-        </Content>
+        {selections}
         <BottomTag href="https://luftare.com">by: Luftare</BottomTag>
       </div>
     );
