@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { inject, observer } from 'mobx-react';
 import { Icon } from 'react-icons-kit';
 import { x, user, userPlus, arrowRight, home } from 'react-icons-kit/feather/';
-import { media, theme } from '../styles';
+import { theme } from '../styles';
 
 const fadeIn = keyframes`
   0% {

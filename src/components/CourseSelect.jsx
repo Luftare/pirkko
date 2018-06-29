@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { inject, observer } from "mobx-react";
 import { Icon } from 'react-icons-kit';
 import { compass, plus, minus, home, thumbsUp, arrowRight } from 'react-icons-kit/feather/';
-import { media, theme } from '../styles';
+import { theme } from '../styles';
 
 const Content = styled.div`
   padding: 16px 16px;
@@ -38,6 +38,10 @@ const Controls = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-around;
+
+  svg:active {
+    transform: scale(0.9, 0.9);
+  }
 `;
 
 const Grid = styled.div`
@@ -66,26 +70,9 @@ const Cell = styled.span`
   color: ${props => props.color || props.theme.black};
   font-size: 1.5em;
   cursor: ${props => props.pointer ? 'pointer' : 'default'};
-`;
-
-const Button = styled.button`
-  border: none;
-  box-shadow: 0px 0px 3px #111;
-  color: ${props => props.theme.black};
-  background-color: ${props => props.theme.white};
-  height: ${props => props.small ? '25px' : '40px'};
-  width: ${props => props.small ? '25px' : '40px'};
-  border-radius: 4px;
-  font-size: inherit;
   :active {
-    transform: scale(0.95, 0.95);
+    ${props => props.pointer ? 'transform: scale(0.9, 0.9);' : ''}
   }
-
-  ${media.tablet`
-    width: 180px;
-    height: ${props => props.small ? '30px' : '50px'};
-    width: ${props => props.small ? '30px' : '50px'};
-  `}
 `;
 
 const TeeCountDisplay = styled.span`
@@ -96,10 +83,6 @@ const TeeCountDisplay = styled.span`
   width: 100px;
   text-align: center;
 `
-
-const Title = styled.div`
-  font-size: 2em;
-`;
 
 @inject("routerStore")
 @inject("gameStore")
@@ -119,8 +102,7 @@ class CourseSelect extends Component {
   }
 
   render() {
-    const { gameStore, routerStore } = this.props;
-    const { goTo } = this.props.routerStore;
+    const { gameStore } = this.props;
 
     return (
       <div>

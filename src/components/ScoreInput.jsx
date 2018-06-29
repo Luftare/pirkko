@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { observer, inject } from "mobx-react";
 import { Icon } from 'react-icons-kit';
-import { compass, thumbsUp, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
+import { compass, chevronRight, chevronLeft, list, home } from 'react-icons-kit/feather/';
 import { media, theme } from '../styles';
 
 const Container = styled.div`

@@ -135,8 +135,7 @@ class Home extends Component {
   };
 
   render() {
-    const { gameStore, routerStore } = this.props;
-    const { goTo } = this.props.routerStore;
+    const { gameStore } = this.props;
 
     const newGameSelection = (
       <IconButton onClick={this.requestNewRound}>

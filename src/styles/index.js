@@ -28,6 +28,18 @@ export const theme = {
   lightgrey: '#eee',
   purple: '#f6e',
   blue: '#9cF',
+  rankedColors: (i) => {
+    return (
+      [
+        theme.primary,
+        theme.blue,
+        theme.green,
+        theme.orange,
+        theme.red,
+        theme.black
+      ][i] || theme.black
+    );
+  },
   scoreToColor: (score, par) => {
     if (!score) return theme.lightgrey;
     const result = score - par;
