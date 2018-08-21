@@ -57,7 +57,6 @@ class ScoreGraph extends Component {
           <VictoryLine
             key={i}
             data={playerData.data}
-            interpolation="natural"
             style={{
               data: {
                 stroke: theme.rankedColors(i)
